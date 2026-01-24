@@ -1,0 +1,18 @@
+total_timesteps: 1e10
+n_eval_episodes: 20
+n_envs: 16
+name: dqn
+model_kwargs:
+  initial_learning_rate: 0.0005388403129100248
+  final_learning_rate: 0.0010056856105812677
+  batch_size: 256
+  tau: 1.0
+  gamma: 0.8108071290665859
+  train_freq: 1024
+  gradient_steps: 10
+  exploration_fraction: 0.1
+  exploration_initial_eps: 1.0
+  exploration_final_eps: 0.05
+  max_grad_norm: 0.5215982006116593
+  buffer_size: 1000000
+  target_update_interval: 8192

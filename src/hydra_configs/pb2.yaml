@@ -1,0 +1,78 @@
+defaults:
+  - _self_
+  - algorithm: dqn
+  - search_space: dqn
+  - override hydra/sweeper: PBT
+  - override hydra/job_logging: colorlog
+  - override hydra/hydra_logging: colorlog
+  - override hydra/launcher: joblib
+
+hydra:
+  mode: MULTIRUN
+  launcher:
+    n_jobs: -1
+    backend: null
+    prefer: processes
+    require: null
+    verbose: 0
+    timeout: null
+    pre_dispatch: 2*n_jobs
+    batch_size: auto
+    temp_folder: null
+    max_nbytes: null
+    mmap_mode: r
+  sweeper:
+    budget: ${algorithm.total_timesteps}
+    budget_variable: algorithm.total_timesteps
+    loading_variable: load
+    saving_variable: save
+    optimizer: pb2
+    pbt_kwargs:
+      maximize: true
+      # wandb_project: torch-minigrid
+      # wandb_entity: raf-phd
+      population_size: 12
+      config_interval: 1e7
+      categorical_mutation: mix
+    search_space: ${search_space}
+  run:
+    dir: ./tmp/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  sweep:
+    dir: ./tmp/${now:%Y-%m-%d}/${now:%H-%M-%S}
+
+env_name: MiniGrid-GoToObject-8x8-N2-v0  # custom, MiniGrid-Empty-5x5-v0, MiniGrid-Empty-Random-5x5-v0, MiniGrid-GoToObject-8x8-N2-v0
+seed: 0
+load: false
+load_path: null # 'trained_models/gto_part_8.zip'
+save: false
+save_model: false
+verbose: 0
+job_num : ${hydra:job.num}
+
+network:
+  optim_eps: 1e-8
+  features_extractor_kwargs:
+    arch:
+      direction: [
+        [Linear,  [4, 16]]
+      ]
+      image: [
+        [Conv2d, [3, 16, [2, 2]]],
+        [ReLU, []],
+        [MaxPool2d, [2]],
+        [Conv2d, [16, 32, [2, 2]]],
+        [ReLU, []],
+        [Conv2d, [32, 64, [2, 2]]],
+        [ReLU, []],
+        [Flatten, []]
+      ]
+      mission: [
+        [Embedding, [32, 32]],
+        # [Flatten, []]
+        [GRU, [32, 128, 1, True, True]]
+      ]
+  policy_kwargs:
+    activation_fn_name: Tanh
+    net_arch:
+      pi: [64]
+      vf: [64]

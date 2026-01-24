@@ -1,0 +1,75 @@
+hyperparameters:
+  algorithm.model_kwargs.initial_learning_rate:
+    type: uniform_float
+    lower: 0.000001
+    upper: 0.01
+    log: true
+    default_value: 0.0005388403129100248
+  algorithm.model_kwargs.final_learning_rate:
+    type: uniform_float
+    lower: 0.000001
+    upper: 0.01
+    log: true
+    default_value: 0.0010056856105812677
+  algorithm.model_kwargs.batch_size:
+    type: categorical
+    choices: [32, 64, 128, 256]
+    log: false
+    default_value: 256
+  algorithm.model_kwargs.gamma:
+    type: uniform_float
+    lower: 0.8
+    upper: 0.9997
+    log: false
+    default_value: 0.8108071290665859
+  algorithm.model_kwargs.horizon:
+    type: categorical
+    choices: [256, 512, 1024, 2048]
+    log: false
+    default_value: 1024
+  algorithm.model_kwargs.n_epochs:
+    type: uniform_int
+    lower: 4
+    upper: 10
+    log: false
+    default_value: 10
+  algorithm.model_kwargs.gae_lambda:
+    type: uniform_float
+    lower: 0.9
+    upper: 1.0
+    log: false
+    default_value: 0.9452281119742252
+  algorithm.model_kwargs.clip_range:
+    type: categorical
+    choices: [0.1, 0.2, 0.3]
+    log: false
+    default_value: 0.1
+  algorithm.model_kwargs.clip_range_vf:
+    type: uniform_float
+    lower: 0.0
+    upper: 1.0
+    log: false
+    default_value: 0.08341734780140342
+  algorithm.model_kwargs.normalize_advantage:
+    type: categorical
+    choices: [true, false]
+    log: false
+    default_value: true
+  algorithm.model_kwargs.ent_coef:
+    type: uniform_float
+    lower: 0.0001
+    upper: 0.1
+    log: false
+    default_value: 0.045732238989694494
+  algorithm.model_kwargs.vf_coef:
+    type: uniform_float
+    lower: 0.5
+    upper: 1.0
+    log: false
+    default_value: 0.8177283657817492
+  algorithm.model_kwargs.max_grad_norm:
+    type: uniform_float
+    lower: 0.1
+    upper: 1.0
+    log: false
+    default_value: 0.5215982006116593

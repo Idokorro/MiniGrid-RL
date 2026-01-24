@@ -1,0 +1,93 @@
+defaults:
+  - _self_
+  - algorithm: ppo
+  - override hydra/job_logging: colorlog
+  - override hydra/hydra_logging: colorlog
+
+hydra:
+  mode: RUN
+
+env_name: custom
+seed: 42
+save_model: true
+verbose: 1
+job_num : 0
+
+algo: bc
+
+# BC
+# Za gtg treba staviti duplo epizoda jer 2 puta resetuje svaku epizodu
+n_epochs: 200
+rollout_episodes: 20000
+batch_size: 32
+
+# GAIL i AIRL
+n_steps: 2000000
+rollout_timesteps: 204800 # n * 1024
+demo_batch_size: 512
+gen_replay_buffer_capacity: 1024
+n_disc_updates_per_round: 32
+
+env:
+  problem: gto  # gto, opn, gtg, pkp
+  size: 8
+  num_objects: 2
+  see_through_walls: true
+  obstacles: false
+  percent_obstacles: 0.05
+
+network:
+  optim_eps: 1e-8
+  features_extractor_kwargs:
+    arch:
+      direction: [
+        [Linear,  [4, 16]]
+      ]
+      image: [
+        [Conv2d, [3, 16, [2, 2]]],
+        [ReLU, []],
+        [MaxPool2d, [2]],
+        [Conv2d, [16, 32, [2, 2]]],
+        [ReLU, []],
+        [Conv2d, [32, 64, [2, 2]]],
+        [ReLU, []],
+        [Flatten, []]
+      ]
+      mission: [
+        [Embedding, [32, 32]],
+        # [Flatten, []]
+        [GRU, [32, 128, 1, True, True]]
+      ]
+  policy_kwargs:
+    activation_fn_name: Tanh
+    net_arch:
+      pi: [64]
+      vf: [64]
+
+  # features_extractor_kwargs:
+  #   arch:
+  #     direction: [
+  #       [Linear,  [4, 16]],
+  #       [Linear,  [16, 32]]
+  #     ]
+  #     image: [
+  #       [Conv2d, [3, 16, [2, 2]]],
+  #       [ReLU, []],
+  #       [MaxPool2d, [2]],
+  #       [Conv2d, [16, 32, [2, 2]]],
+  #       [ReLU, []],
+  #       [Conv2d, [32, 64, [2, 2]]],
+  #       [ReLU, []],
+  #       [Flatten, []]
+  #     ]
+  #     mission: [
+  #       [Embedding, [32, 32]],
+  #       # [Flatten, []]
+  #       [GRU, [32, 128, 2, True, True]]
+  #     ]
+  # policy_kwargs:
+  #   activation_fn_name: Tanh
+  #   net_arch:
+  #     pi: [128, 64]
+  #     vf: [128, 64]
+    

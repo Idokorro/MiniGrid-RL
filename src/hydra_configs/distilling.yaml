@@ -1,0 +1,67 @@
+defaults:
+  - _self_
+  - algorithm: ppo
+  - override hydra/job_logging: colorlog
+  - override hydra/hydra_logging: colorlog
+
+hydra:
+  mode: RUN
+
+env_name: custom
+seed: 42
+load: false
+load_path: null
+save: false
+save_model: true
+render: false
+verbose: 1
+job_num : 0
+dist_batch_size: 256
+dist_epochs: 500
+dist_learning_rate: 0.003
+dist_lr_decay: 0.99
+
+env:
+  problem: multi  # gto, opn, pkp, gtg
+  mission: null  # 'go to' : 0, 'toggle': 1, 'pick up': 2, 'go to goal': 5
+  all_doors_open: true
+  size: 11
+  num_objects: 4
+  see_through_walls: true
+  obstacles: false
+  percent_obstacles: 0.05
+
+network:
+  optim_eps: 1e-8
+  normalize_images: true
+  share_features_extractor: true
+  shared_lstm: true
+  enable_critic_lstm: false
+  lstm_hidden_size: 64
+  n_lstm_layers: 1
+  features_extractor_kwargs:
+    n_frames_stack: ${algorithm.n_frames_stack}
+    arch:
+      direction: [
+        [Linear,  [4, 16]]
+      ]
+      image: [
+        [Conv2d, [3, 16, [2, 2]]],
+        [ReLU, []],
+        [MaxPool2d, [2]],
+        [Conv2d, [16, 32, [2, 2]]],
+        [ReLU, []],
+        [Conv2d, [32, 64, [2, 2]]],
+        [ReLU, []],
+        [Flatten, []]
+      ]
+      mission: [
+        [Embedding, [32, 32]],
+        [GRU, [32, 128, 1, True, True]]
+      ]
+  policy_kwargs:
+    activation_fn_name: Tanh
+    net_arch:
+      pi: [64]
+      vf: [64]
+    

@@ -1,0 +1,27 @@
+torch
+torchvision
+stable-baselines3
+sb3_contrib
+# imitation==1.0.1
+matplotlib
+opencv-python
+gymnasium
+minigrid
+tensorboard
+tqdm
+rich
+dehb @ git+https://github.com/automl/DEHB.git@master
+GPy
+scipy
+scikit-learn
+gpytorch
+hydra-core
+hydra_colorlog
+hydra-joblib-launcher
+pandas
+configspace
+wandb
+pre-commit
+moviepy
+pygame_widgets
+ollama

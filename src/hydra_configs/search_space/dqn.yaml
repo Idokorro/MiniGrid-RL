@@ -1,0 +1,65 @@
+hyperparameters:
+  algorithm.model_kwargs.initial_learning_rate:
+    type: uniform_float
+    lower: 0.000001
+    upper: 0.01
+    log: true
+    default_value: 0.0005388403129100248
+  algorithm.model_kwargs.final_learning_rate:
+    type: uniform_float
+    lower: 0.000001
+    upper: 0.01
+    log: true
+    default_value: 0.0010056856105812677
+  algorithm.model_kwargs.batch_size:
+    type: categorical
+    choices: [32, 64, 128, 256]
+    log: false
+    default_value: 256
+  algorithm.model_kwargs.tau:
+    type: uniform_float
+    lower: 0.0
+    upper: 1.0
+    log: false
+    default_value: 1.0
+  algorithm.model_kwargs.gamma:
+    type: uniform_float
+    lower: 0.8
+    upper: 0.9997
+    log: false
+    default_value: 0.8108071290665859
+  algorithm.model_kwargs.train_freq:
+    type: categorical
+    choices: [256, 512, 1024, 2048]
+    log: false
+    default_value: 1024
+  algorithm.model_kwargs.gradient_steps:
+    type: uniform_int
+    lower: 4
+    upper: 10
+    log: false
+    default_value: 10
+  algorithm.model_kwargs.exploration_fraction:
+    type: uniform_float
+    lower: 0.01
+    upper: 0.5
+    log: false
+    default_value: 0.1
+  algorithm.model_kwargs.exploration_initial_eps:
+    type: uniform_float
+    lower: 0.8
+    upper: 1.0
+    log: false
+    default_value: 1.0
+  algorithm.model_kwargs.exploration_final_eps:
+    type: uniform_float
+    lower: 0.01
+    upper: 0.1
+    log: false
+    default_value: 0.05
+  algorithm.model_kwargs.max_grad_norm:
+    type: uniform_float
+    lower: 0.1
+    upper: 1.0
+    log: false
+    default_value: 0.5215982006116593
